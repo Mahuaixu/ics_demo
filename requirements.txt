@@ -1,1 +1,2 @@
 wheel>=0.22
+tornado>=2.2.1
