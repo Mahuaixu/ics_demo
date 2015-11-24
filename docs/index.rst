@@ -13,7 +13,6 @@ Contents:
 
    installation
    usage
-   contributing
    authors
    history
 
@@ -23,5 +22,3 @@ Feedback
 If you have any suggestions or questions about **ICS Demo** feel free to email me
 at zzl_1164@126.com.
 
-If you encounter any errors or problems with **ICS Demo**, please let me know!
-Open an Issue at the GitHub http://github.com/lielongxingkong/ics_demo main repository.
