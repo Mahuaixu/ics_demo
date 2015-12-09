@@ -1,13 +1,9 @@
 import tornado.ioloop
 import tornado.web
-
-
-class MainHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write("Hello, world")
+from ics_demo.handlers import BaseHandler
 
 application = tornado.web.Application([
-    (r"/", MainHandler),
+    (r"/", BaseHandler),
 ])
 
 if __name__ == "__main__":
