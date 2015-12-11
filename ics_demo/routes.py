@@ -5,4 +5,6 @@ urls = [
     (r"/", BaseHandler),
     (r"/demo", DemoBaseHandler),
     (r"/demo/rabbit", DemoRabbitHandler),
+    (r"/demo/rabbit/([0-9]+)", DemoRabbitHandler),
+
 ]
