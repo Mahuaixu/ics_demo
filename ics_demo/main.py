@@ -1,6 +1,6 @@
 import tornado.ioloop
 import tornado.web
-from ics_demo.dao.db import init_db
+from ics_demo.dao import init_db
 from ics_demo.routes import urls
 
 application = tornado.web.Application(urls)
