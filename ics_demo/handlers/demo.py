@@ -22,6 +22,25 @@ class DemoRabbitHandler(DemoBaseHandler):
         """
         self.write(json.dumps({'rabbit': self.get_from_dao(RabbitDAO, rabbit_id)}))
 
+    def post(self):
+        """
+            Instructions:
+            In POST:
+                1. get data user posted
+                2. check whether can be parsed
+                        a generic operation. throw it to Helpers
+                3. prepare data
+                    3.1 derefernce ObjectRef from dao
+                        a generic operation. throw it to BaseHandler
+                    3.2 fill user posted data to object
+                        dealing with it in this handler
+                    3.3 fill data rpc eagering
+                4. do rpc
+                5. data persistent
+        """
+        self.set_header("Content-Type", "text/plain")
+        post_data = self.get_argument("rabbit"))
+
 class DemoCarrotHandler(DemoBaseHandler):
     def get(self, carrot_id=None):
         self.write(json.dumps({'carrot': self.get_from_dao(CarrotDAO, carrot_id)}))
