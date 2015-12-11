@@ -1,13 +1,9 @@
 import tornado.ioloop
 import tornado.web
 from ics_demo.dao.db import init_db
-from ics_demo.handlers import BaseHandler
-from ics_demo.handlers import DemoHandler
+from ics_demo.routes import urls
 
-application = tornado.web.Application([
-    (r"/", BaseHandler),
-    (r"/demo", DemoHandler),
-])
+application = tornado.web.Application(urls)
 
 if __name__ == "__main__":
     init_db()
