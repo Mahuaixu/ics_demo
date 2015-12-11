@@ -12,12 +12,5 @@ class DemoBaseHandler(BaseHandler):
 
 class DemoRabbitHandler(DemoBaseHandler):
     def get(self, rabbit_id=None):
-        rabbit_dao = RabbitDAO()
-        try:
-            if not rabbit_id:
-                rabbit = rabbit_dao.get_all()
-            else:
-                rabbit = rabbit_dao.get_one(rabbit_id)
-        except NotFoundError, exp:
-            exp.handle()
-        self.write(json.dumps({'rabbit': rabbit}))
+        self.write(json.dumps({'rabbit': self.get_from_dao(RabbitDAO, rabbit_id)}))
+
