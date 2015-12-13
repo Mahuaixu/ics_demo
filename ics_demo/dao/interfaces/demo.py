@@ -33,6 +33,11 @@ class CarrotDAO(BaseDAO):
     def get_keys(self):
         return self.get_keys_by_class(Carrot)
 
+    def save(self, post_dict):
+        name = post_dict['name']
+        rabbit = post_dict['rabbit']
+        return Carrot(uuid=uuidgen(), name=name, rabbit=rabbit)
+
 class CorpsDAO(BaseDAO):
     def get_all(self):
         return self.get_all_by_class(Corps)
