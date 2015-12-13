@@ -1,4 +1,4 @@
-from ics_demo.dao import BaseDAO
+from ics_demo.dao.interfaces.base import BaseDAO
 from ics_demo.dao.orm.demo import Carrot, Rabbit, Corps
 
 from ics_demo.helpers import uuidgen

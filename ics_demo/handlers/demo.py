@@ -4,7 +4,7 @@ import tornado
 
 from ics_demo.handlers import BaseHandler
 from ics_demo.helpers.exc import CannotParsedError
-from ics_demo.dao import RabbitDAO, CarrotDAO, CorpsDAO
+from ics_demo.dao import rabbit_dao, carrot_dao, corps_dao
 from ics_demo.dao.orm.demo import Carrot, Rabbit, Corps
 
 class DemoBaseHandler(BaseHandler):
@@ -21,7 +21,7 @@ class DemoRabbitHandler(DemoBaseHandler):
                 2. display data and convert it to json
                     using json.dumps enough and fill type
         """
-        self.write(json.dumps({'rabbit': self.get_from_dao(RabbitDAO, rabbit_id)}))
+        self.write(json.dumps({'rabbit': self.get_from_dao(rabbit_dao, rabbit_id)}))
 
     def post(self):
         """
@@ -40,19 +40,17 @@ class DemoRabbitHandler(DemoBaseHandler):
                 5. data persistent
                 6. show posted Object
         """
-        # give ref mapping to parse reference
-        ref_mapping = {'carrotRef' : Carrot}
-
         self.set_header("Content-Type", "text/plain")
         post_data = self.get_argument("rabbit")
-        post_dict = self.parse_and_check_user_data(RabbitDAO, post_data, ref_mapping)
-        rabbit = self.save_to_dao(RabbitDAO, post_dict)
-        self.write(json.dumps({'rabbit': self.get_from_dao(RabbitDAO, rabbit.get_identifier())}))
+        valid_keys = rabbit_dao.get_keys()
+        post_dict = self.parse_and_check_user_data(post_data, valid_keys)
+        rabbit = rabbit_dao.save(post_dict)
+        self.write(json.dumps({'rabbit': rabbit_dao.get_one(rabbit.get_identifier())}))
 
 class DemoCarrotHandler(DemoBaseHandler):
     def get(self, carrot_id=None):
-        self.write(json.dumps({'carrot': self.get_from_dao(CarrotDAO, carrot_id)}))
+        self.write(json.dumps({'carrot': self.get_from_dao(carrot_dao, carrot_id)}))
 
 class DemoCorpsHandler(DemoBaseHandler):
     def get(self, corps_id=None):
-        self.write(json.dumps({'corps': self.get_from_dao(CorpsDAO, corps_id)}))
+        self.write(json.dumps({'corps': self.get_from_dao(corps_dao, corps_id)}))

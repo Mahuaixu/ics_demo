@@ -8,8 +8,7 @@ class BaseHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("ICS Demo")
 
-    def get_from_dao(self, DAO, identifier=None):
-        dao = DAO()
+    def get_from_dao(self, dao, identifier=None):
         try:
             if not identifier:
                 data = dao.get_all()
@@ -19,11 +18,7 @@ class BaseHandler(tornado.web.RequestHandler):
                 exp.handle()
         return data
 
-    def deref_dict(self, post_dict, ref_mapping):
-        #TODO
-        return post_dict
-
-    def parse_user_data(self, post_data, ref_mapping):
+    def parse_user_data(self, post_data):
         try:
             post_dict = json2dict(post_data)
         except CannotParsedError, exp:
@@ -31,20 +26,15 @@ class BaseHandler(tornado.web.RequestHandler):
         post_dict = self.deref_dict(post_dict, ref_mapping)
         return post_dict
 
-    def check_user_data(self, DAO, post_dict):
+    def check_user_data(self, post_dict, valid_keys):
         """user posted data keys must in orm"""
-        dao = DAO()
-        for key in post_dict.keys():
+        for key in valid_keys:
             if key.endswith('Ref') and len(key) > 3:
                 key = key[:-3]
-            if key not in dao.get_keys():
+            if key not in valid_keys:
                 CannotParsedError().handle()
 
-    def parse_and_check_user_data(self, DAO, post_data, ref_mapping):
-        post_dict = self.parse_user_data(post_data, ref_mapping)
-        self.check_user_data(DAO, post_dict)
+    def parse_and_check_user_data(self, post_data, valid_keys):
+        post_dict = self.parse_user_data(post_data)
+        self.check_user_data(post_dict, valid_keys)
         return post_dict
-
-    def save_to_dao(self, DAO, post_dict):
-        dao = DAO()
-        return dao.save(post_dict)
