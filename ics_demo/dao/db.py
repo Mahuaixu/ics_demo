@@ -11,11 +11,6 @@ def cleanTables(tables):
     for table in tables[::-1]:
         table.dropTable(ifExists=True)
 
-global rabbit_dao
-global carrot_dao
-global corps_dao
-global demo_tables
-
 demo_tables = [Rabbit, Carrot, Corps] # order by dependency
 rabbit_dao = RabbitDAO()
 carrot_dao = CarrotDAO()
