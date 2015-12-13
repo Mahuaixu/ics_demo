@@ -36,3 +36,5 @@ class BaseDAO(object):
         live = self._get_one_from_livestatus(klass, identifier)
         return self._combine_obj(persist, live)
 
+    def get_keys_by_class(self, klass):
+        return klass.sqlmeta.getColumns().keys()
