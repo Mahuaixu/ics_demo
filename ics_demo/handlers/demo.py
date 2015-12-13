@@ -51,6 +51,13 @@ class DemoCarrotHandler(DemoBaseHandler):
     def get(self, carrot_id=None):
         self.write(json.dumps({'carrot': self.get_from_dao(carrot_dao, carrot_id)}))
 
+    def post(self):
+        self.set_header("Content-Type", "text/plain")
+        post_data = self.get_argument("carrot")
+        post_dict = self.parse_and_check_user_data(post_data)
+        carrot = carrot_dao.save(post_dict)
+        self.write(json.dumps({'carrot': carrot_dao.get_one(carrot.get_identifier())}))
+
 class DemoCorpsHandler(DemoBaseHandler):
     def get(self, corps_id=None):
         self.write(json.dumps({'corps': self.get_from_dao(corps_dao, corps_id)}))
