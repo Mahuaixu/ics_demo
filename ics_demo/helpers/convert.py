@@ -1,4 +1,6 @@
-import jsonpickle
+import json, jsonpickle
+
+from exc import CannotParsedError
 
 def sqlobj2dict(sqlobj):
     #FIXME: dealing Datetime()
@@ -12,3 +14,11 @@ def sqlist2list(sqlist):
 
 def sqlist2json(sqlist):
     return jsonpickle.encode(sqlist2list(sqlist), unpicklable=True)
+
+def json2dict(json_str):
+    try:
+        decoded = json.loads(json_str)
+    except ValueError:
+        raise CannotParsedError
+    return decoded
+
