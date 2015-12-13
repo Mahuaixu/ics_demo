@@ -3,6 +3,7 @@ from sqlobject import *
 
 from ics_demo.helpers.convert import sqlist2list, sqlobj2dict, json2dict
 from ics_demo.helpers.exc import NotFoundError, CannotParsedError
+from mapping import dao_mapping
 
 class BaseHandler(tornado.web.RequestHandler):
     def get(self):
@@ -23,18 +24,24 @@ class BaseHandler(tornado.web.RequestHandler):
             post_dict = json2dict(post_data)
         except CannotParsedError, exp:
             exp.handle()
-        post_dict = self.deref_dict(post_dict, ref_mapping)
         return post_dict
 
-    def check_user_data(self, post_dict, valid_keys):
+    def deref_user_data(self, post_dict):
         """user posted data keys must in orm"""
-        for key in valid_keys:
+        result = {}
+        for key, val in post_dict.iteritems():
             if key.endswith('Ref') and len(key) > 3:
                 key = key[:-3]
-            if key not in valid_keys:
-                CannotParsedError().handle()
+                if key in dao_mapping.keys():
+                    dao = dao_mapping.get(key, None)
+                    try:
+                        result[key] = dao.get_obj(val)
+                    except NotFoundError:
+                        CannotParsedError().handle()
+            else:
+                result[key] = val
+        return result
 
-    def parse_and_check_user_data(self, post_data, valid_keys):
+    def parse_and_check_user_data(self, post_data):
         post_dict = self.parse_user_data(post_data)
-        self.check_user_data(post_dict, valid_keys)
-        return post_dict
+        return self.deref_user_data(post_dict)

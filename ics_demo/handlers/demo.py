@@ -42,8 +42,7 @@ class DemoRabbitHandler(DemoBaseHandler):
         """
         self.set_header("Content-Type", "text/plain")
         post_data = self.get_argument("rabbit")
-        valid_keys = rabbit_dao.get_keys()
-        post_dict = self.parse_and_check_user_data(post_data, valid_keys)
+        post_dict = self.parse_and_check_user_data(post_data)
         rabbit = rabbit_dao.save(post_dict)
         self.write(json.dumps({'rabbit': rabbit_dao.get_one(rabbit.get_identifier())}))
 
