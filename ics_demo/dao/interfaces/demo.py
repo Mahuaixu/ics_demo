@@ -11,6 +11,10 @@ class RabbitDAO(BaseDAO):
     def get_keys(self):
         return self.get_keys_by_class(Rabbit)
 
+    def save(self, post_dict):
+        name = post_dict['name']
+        return Rabbit(name=name)
+
 class CarrotDAO(BaseDAO):
     def get_all(self):
         return self.get_all_by_class(Carrot)
