@@ -10,6 +10,9 @@ class RabbitDAO(BaseDAO):
     def get_one(self, identifier):
         return self.get_one_by_class(Rabbit, identifier)
 
+    def get_obj(self, identifier):
+        return self.get_obj_by_class(Rabbit, identifier)
+
     def get_keys(self):
         return self.get_keys_by_class(Rabbit)
 
@@ -24,6 +27,9 @@ class CarrotDAO(BaseDAO):
     def get_one(self, identifier):
         return self.get_one_by_class(Carrot, identifier)
 
+    def get_obj(self, identifier):
+        return self.get_obj_by_class(Carrot, identifier)
+
     def get_keys(self):
         return self.get_keys_by_class(Carrot)
 
@@ -33,6 +39,9 @@ class CorpsDAO(BaseDAO):
 
     def get_one(self, identifier):
         return self.get_one_by_class(Corps, identifier)
+
+    def get_obj(self, identifier):
+        return self.get_obj_by_class(Corps, identifier)
 
     def get_keys(self):
         return self.get_keys_by_class(Corps)

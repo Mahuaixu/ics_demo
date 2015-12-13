@@ -35,5 +35,11 @@ class BaseDAO(object):
     def get_one_by_class(self, klass, identifier):
         return id_to_ref(self._get_one_from_orm(klass, identifier))
 
+    def get_obj_by_class(self, klass, identifier):
+        try:
+            return klass.selectBy(uuid=identifier).getOne()
+        except SQLObjectNotFound:
+            raise NotFoundError()
+
     def get_keys_by_class(self, klass):
         return klass.sqlmeta.getColumns().keys()
