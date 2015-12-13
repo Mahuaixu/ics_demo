@@ -10,7 +10,7 @@ class BaseDAO(object):
 
     def _get_one_from_orm(self, klass, identifier):
         try:
-            obj = klass.get(identifier)
+            obj = klass.selectBy(uuid=identifier).getOne()
         except SQLObjectNotFound:
             raise NotFoundError()
         return sqlobj2dict(obj)

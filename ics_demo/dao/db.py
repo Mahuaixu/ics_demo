@@ -1,5 +1,6 @@
 from sqlobject import *
 from ics_demo.dao.orm.demo import Carrot, Rabbit, Corps
+from ics_demo.helpers import uuidgen
 
 def createTables(tables):
     for table in tables:
@@ -15,13 +16,13 @@ def init_demo():
     cleanTables(demo_tables)
     createTables(demo_tables)
     # init test data
-    bunny_kun1 = Rabbit(name="BunnyKun1")
-    bunny_kun2 = Rabbit(name="BunnyKun2")
+    bunny_kun1 = Rabbit(uuid=uuidgen(), name="BunnyKun1")
+    bunny_kun2 = Rabbit(uuid=uuidgen(), name="BunnyKun2")
     #carrot_kun = Carrot(name="CarrotKun")
-    carrot_kun1 = Carrot(name="CarrotKun1", rabbit=bunny_kun1)
-    carrot_kun2 = Carrot(name="CarrotKun2", rabbit=bunny_kun2)
-    carrot_kun3 = Carrot(name="CarrotKun3", rabbit=bunny_kun2)
-    corps = Corps(name="BunnyArmy")
+    carrot_kun1 = Carrot(uuid=uuidgen(), name="CarrotKun1", rabbit=bunny_kun1)
+    carrot_kun2 = Carrot(uuid=uuidgen(), name="CarrotKun2", rabbit=bunny_kun2)
+    carrot_kun3 = Carrot(uuid=uuidgen(), name="CarrotKun3", rabbit=bunny_kun2)
+    corps = Corps(uuid=uuidgen(), name="BunnyArmy")
     corps.addRabbit(bunny_kun1)
     corps.addRabbit(bunny_kun2)
 

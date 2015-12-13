@@ -1,6 +1,8 @@
 from ics_demo.dao import BaseDAO
 from ics_demo.dao.orm.demo import Carrot, Rabbit, Corps
 
+from ics_demo.helpers import uuidgen
+
 class RabbitDAO(BaseDAO):
     def get_all(self):
         return self.get_all_by_class(Rabbit)
@@ -13,7 +15,7 @@ class RabbitDAO(BaseDAO):
 
     def save(self, post_dict):
         name = post_dict['name']
-        return Rabbit(name=name)
+        return Rabbit(uuid=uuidgen(), name=name)
 
 class CarrotDAO(BaseDAO):
     def get_all(self):
