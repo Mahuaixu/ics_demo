@@ -15,26 +15,11 @@ class BaseDAO(object):
             raise NotFoundError()
         return sqlobj2dict(obj, blacklist=['id'])
 
-    def _get_one_from_livestatus(self, klass, identifier):
-        pass
-
-    def _combine_obj(self, persist, live):
-        return persist
-
-    def _get_id(self, persist):
-        return persist
-
     def get_all_by_class(self, klass):
-        result = []
-        for persist in self._get_all_from_orm(klass):
-            live = self._get_one_from_livestatus(klass, self._get_id(persist))
-            result.append(self._combine_obj(persist, live))
-        return result
+        return self._get_all_from_orm(klass)
 
     def get_one_by_class(self, klass, identifier):
-        persist = self._get_one_from_orm(klass, identifier)
-        live = self._get_one_from_livestatus(klass, identifier)
-        return self._combine_obj(persist, live)
+        return self._get_one_from_orm(klass, identifier)
 
     def get_keys_by_class(self, klass):
         return klass.sqlmeta.getColumns().keys()
