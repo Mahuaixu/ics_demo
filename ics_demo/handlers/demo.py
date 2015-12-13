@@ -39,7 +39,7 @@ class DemoRabbitHandler(DemoBaseHandler):
                 5. data persistent
         """
         self.set_header("Content-Type", "text/plain")
-        post_data = self.get_argument("rabbit"))
+        post_data = self.get_argument("rabbit")
 
 class DemoCarrotHandler(DemoBaseHandler):
     def get(self, carrot_id=None):
