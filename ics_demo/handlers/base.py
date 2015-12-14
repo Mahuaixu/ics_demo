@@ -10,7 +10,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self.write("ICS Demo")
 
     def prepare(self):
-        if self.request.headers["Content-Type"].startswith("application/json"):
+        if self.request.method == 'POST' and self.request.headers["Content-Type"].startswith("application/json"):
             self.post_data = json2dict(self.request.body)
         else:
             self.post_data = None
