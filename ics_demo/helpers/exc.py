@@ -24,6 +24,6 @@ class CannotParsedError(IcsError):
     Data cannot be parsed
     """
     def __init__(self, to_what, from_what):
-        message = self.__doc__.strip() + ': ['+ str(to_what) + '] of ' + str(from_what)
+        message = self.__doc__.strip() + ' to ['+ str(to_what) + '] of ' + str(from_what)
         super(IcsError, self).__init__(500, message)
 
