@@ -1,0 +1,33 @@
+---
+- config:
+    - testset: "Demo tests"
+
+- test: 
+    - group: "Rabbit"
+    - name: "Rabbits get"
+    - url: "/demo/rabbit"
+    - method: "GET"
+
+- test: 
+    - group: "Rabbit"
+    - name: "Get single rabbit"
+    - url: "/demo/rabbit/11111111-1111-1111-1111-111111111111"
+    - body: '{"name": "BunnyKun1", "uuid": "11111111-1111-1111-1111-111111111111"}'
+    - headers: {'Content-Type': 'application/json'}
+
+- test: 
+    - group: "Rabbit"
+    - name: "No such rabbit"
+    - url: "/demo/rabbit/22222222-1111-1111-1111-111111111111"
+    - method: "GET"
+    - expected_status: [404]
+    - body: '"rabbit" : {"name": "BunnyKun1", "uuid": "11111111-1111-1111-1111-111111111111"}'
+    - headers: {'Content-Type': 'application/json'}
+
+- test:
+    - group: "Rabbit"
+    - name: "Create rabbit"
+    - url: "/demo/rabbit"
+    - method: "POST"
+    - body: '{"rabbit" : {"name": "ZZL"}}'
+    - headers: {'Content-Type': 'application/json'}
