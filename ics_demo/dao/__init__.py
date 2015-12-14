@@ -1,3 +1,4 @@
-from interfaces.demo import RabbitDAO, CarrotDAO, CorpsDAO
 from db import init_db
-from db import rabbit_dao, carrot_dao, corps_dao
+from interfaces.demo import rabbit as rabbit_dao
+from interfaces.demo import carrot as carrot_dao
+from interfaces.demo import carrot as corps_dao

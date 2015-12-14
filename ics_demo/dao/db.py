@@ -1,6 +1,5 @@
 from sqlobject import *
 from ics_demo.dao.orm.demo import Carrot, Rabbit, Corps
-from ics_demo.dao import CarrotDAO, RabbitDAO, CorpsDAO
 from ics_demo.helpers import uuidgen
 
 def createTables(tables):
@@ -12,9 +11,6 @@ def cleanTables(tables):
         table.dropTable(ifExists=True)
 
 demo_tables = [Rabbit, Carrot, Corps] # order by dependency
-rabbit_dao = RabbitDAO()
-carrot_dao = CarrotDAO()
-corps_dao = CorpsDAO()
 
 def init_demo():
     cleanTables(demo_tables)

@@ -17,29 +17,28 @@ def id_to_ref(output_dict):
             result[key] = val
     return result
 
-class BaseDAO(object):
-    def _get_all_from_orm(self, klass):
-        objs = klass.select()
-        return sqlist2list(objs, blacklist=['id'])
+def _get_all_from_orm(klass):
+    objs = klass.select()
+    return sqlist2list(objs, blacklist=['id'])
 
-    def _get_one_from_orm(self, klass, identifier):
-        try:
-            obj = klass.selectBy(uuid=identifier).getOne()
-        except SQLObjectNotFound:
-            raise NotFoundError(str(klass.__name__), identifier)
-        return sqlobj2dict(obj, blacklist=['id'])
+def _get_one_from_orm(klass, identifier):
+    try:
+        obj = klass.selectBy(uuid=identifier).getOne()
+    except SQLObjectNotFound:
+        raise NotFoundError(str(klass.__name__), identifier)
+    return sqlobj2dict(obj, blacklist=['id'])
 
-    def get_all_by_class(self, klass):
-        return map(id_to_ref, self._get_all_from_orm(klass))
+def get_all_by_class(klass):
+    return map(id_to_ref, _get_all_from_orm(klass))
 
-    def get_one_by_class(self, klass, identifier):
-        return id_to_ref(self._get_one_from_orm(klass, identifier))
+def get_one_by_class(klass, identifier):
+    return id_to_ref(_get_one_from_orm(klass, identifier))
 
-    def get_obj_by_class(self, klass, identifier):
-        try:
-            return klass.selectBy(uuid=identifier).getOne()
-        except SQLObjectNotFound:
-            raise NotFoundError(str(klass.__name__), identifier)
+def get_obj_by_class(klass, identifier):
+    try:
+        return klass.selectBy(uuid=identifier).getOne()
+    except SQLObjectNotFound:
+        raise NotFoundError(str(klass.__name__), identifier)
 
-    def get_keys_by_class(self, klass):
-        return klass.sqlmeta.getColumns().keys()
+def get_keys_by_class(klass):
+    return klass.sqlmeta.getColumns().keys()
