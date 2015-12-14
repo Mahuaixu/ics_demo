@@ -41,8 +41,7 @@ class DemoRabbitHandler(DemoBaseHandler):
                 6. show posted Object
         """
         self.set_header("Content-Type", "text/plain")
-        post_data = self.get_argument("rabbit")
-        post_dict = self.parse_and_check_user_data(post_data)
+        post_dict = self.deref_user_data(self.post_data['rabbit'])
         rabbit = rabbit_dao.save(post_dict)
         self.write(json.dumps({'rabbit': rabbit_dao.get_one(rabbit.get_identifier())}))
 
@@ -52,8 +51,7 @@ class DemoCarrotHandler(DemoBaseHandler):
 
     def post(self):
         self.set_header("Content-Type", "text/plain")
-        post_data = self.get_argument("carrot")
-        post_dict = self.parse_and_check_user_data(post_data)
+        post_dict = self.deref_user_data(self.post_data['carrot'])
         carrot = carrot_dao.save(post_dict)
         self.write(json.dumps({'carrot': carrot_dao.get_one(carrot.get_identifier())}))
 

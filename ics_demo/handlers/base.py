@@ -9,6 +9,12 @@ class BaseHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("ICS Demo")
 
+    def prepare(self):
+        if self.request.headers["Content-Type"].startswith("application/json"):
+            self.post_data = json2dict(self.request.body)
+        else:
+            self.post_data = None
+
     def write_error(self, status_code, **kwargs):
         self.set_header('Content-Type', 'text/plain')
         exc_info = kwargs['exc_info']
@@ -26,9 +32,6 @@ class BaseHandler(tornado.web.RequestHandler):
             data = dao.get_one(identifier)
         return data
 
-    def parse_user_data(self, post_data):
-        return json2dict(post_data)
-
     def deref_user_data(self, post_dict):
         """user posted data keys must in orm"""
         result = {}
@@ -44,7 +47,3 @@ class BaseHandler(tornado.web.RequestHandler):
             else:
                 result[key] = val
         return result
-
-    def parse_and_check_user_data(self, post_data):
-        post_dict = self.parse_user_data(post_data)
-        return self.deref_user_data(post_dict)
