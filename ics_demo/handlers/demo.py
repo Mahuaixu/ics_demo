@@ -41,7 +41,10 @@ class DemoRabbitHandler(DemoBaseHandler):
                 6. show posted Object
         """
         self.set_header("Content-Type", "text/plain")
-        post_dict = self.deref_user_data(self.post_data['rabbit'])
+        if 'rabbit' not in self.post_data.keys():
+            raise CannotParsedError('dict of Rabbit', str(self.post_data))
+        else:
+            post_dict = self.deref_user_data(self.post_data['rabbit'])
         rabbit = rabbit_dao.save(post_dict)
         self.write(json.dumps({'rabbit': rabbit_dao.get_one(rabbit.get_identifier())}))
 
@@ -51,7 +54,10 @@ class DemoCarrotHandler(DemoBaseHandler):
 
     def post(self):
         self.set_header("Content-Type", "text/plain")
-        post_dict = self.deref_user_data(self.post_data['carrot'])
+        if 'carrot' not in self.post_data.keys():
+            raise CannotParsedError('dict of Carrot', str(self.post_data))
+        else:
+            post_dict = self.deref_user_data(self.post_data['carrot'])
         carrot = carrot_dao.save(post_dict)
         self.write(json.dumps({'carrot': carrot_dao.get_one(carrot.get_identifier())}))
 
