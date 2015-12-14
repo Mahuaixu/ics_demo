@@ -1,4 +1,5 @@
 import json, jsonpickle
+import traceback
 
 from exc import CannotParsedError
 
@@ -24,7 +25,14 @@ def sqlist2json(sqlist, blacklist=None):
 def json2dict(json_str):
     try:
         decoded = json.loads(json_str)
+        if type(decoded) != type({}):
+            raise ValueError
     except ValueError:
-        raise CannotParsedError
+        raise CannotParsedError("json", json_str)
     return decoded
 
+def error2json(msg):
+    return json.dumps({'status' : 'error', 'message' : msg})
+
+def excinfo2str(exc_info):
+    return ''.join(line for line in traceback.format_exception(*exc_info))

@@ -1,9 +1,11 @@
 import tornado 
 
-class IcsError(Exception):
+class IcsError(tornado.web.HTTPError):
     """
     Unknown ics error
     """
+    def __init__(self, status_code, message):
+        super(tornado.web.HTTPError, self).__init__(status_code, log_message=message, reason=message)
 
     def __str__(self):
         doc = self.__doc__.strip()
@@ -13,13 +15,15 @@ class NotFoundError(IcsError):
     """
     No data found
     """
-    def handle(self):
-        raise tornado.web.HTTPError(404, self.__doc__.strip())
+    def __init__(self, what, who):
+        message = self.__doc__.strip() + ': ['+ str(what) + '] of ' + str(who)
+        super(IcsError, self).__init__(404, message)
 
 class CannotParsedError(IcsError):
     """
     Data cannot be parsed
     """
-    def handle(self):
-        raise tornado.web.HTTPError(500, self.__doc__.strip())
+    def __init__(self, to_what, from_what):
+        message = self.__doc__.strip() + ': ['+ str(to_what) + '] of ' + str(from_what)
+        super(IcsError, self).__init__(500, message)
 

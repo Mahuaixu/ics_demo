@@ -1,7 +1,7 @@
 import tornado.web
 from sqlobject import *
 
-from ics_demo.helpers.convert import sqlist2list, sqlobj2dict, json2dict
+from ics_demo.helpers.convert import sqlist2list, sqlobj2dict, json2dict, error2json, excinfo2str
 from ics_demo.helpers.exc import NotFoundError, CannotParsedError
 from mapping import dao_mapping
 
@@ -9,22 +9,25 @@ class BaseHandler(tornado.web.RequestHandler):
     def get(self):
         self.write("ICS Demo")
 
+    def write_error(self, status_code, **kwargs):
+        self.set_header('Content-Type', 'text/plain')
+        exc_info = kwargs['exc_info']
+        if isinstance(exc_info[1], tornado.web.HTTPError):
+            log_message = kwargs['exc_info'][1].log_message
+        else:
+            log_message = excinfo2str(exc_info)
+        self.write(error2json(log_message))
+        self.finish()
+
     def get_from_dao(self, dao, identifier=None):
-        try:
-            if not identifier:
-                data = dao.get_all()
-            else:
-                data = dao.get_one(identifier)
-        except NotFoundError, exp:
-                exp.handle()
+        if not identifier:
+            data = dao.get_all()
+        else:
+            data = dao.get_one(identifier)
         return data
 
     def parse_user_data(self, post_data):
-        try:
-            post_dict = json2dict(post_data)
-        except CannotParsedError, exp:
-            exp.handle()
-        return post_dict
+        return json2dict(post_data)
 
     def deref_user_data(self, post_dict):
         """user posted data keys must in orm"""
@@ -37,7 +40,7 @@ class BaseHandler(tornado.web.RequestHandler):
                     try:
                         result[key] = dao.get_obj(val)
                     except NotFoundError:
-                        CannotParsedError().handle()
+                        raise CannotParsedError(key, post_dict)
             else:
                 result[key] = val
         return result

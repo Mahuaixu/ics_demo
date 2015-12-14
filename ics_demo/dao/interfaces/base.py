@@ -26,7 +26,7 @@ class BaseDAO(object):
         try:
             obj = klass.selectBy(uuid=identifier).getOne()
         except SQLObjectNotFound:
-            raise NotFoundError()
+            raise NotFoundError(str(klass.__name__), identifier)
         return sqlobj2dict(obj, blacklist=['id'])
 
     def get_all_by_class(self, klass):
@@ -39,7 +39,7 @@ class BaseDAO(object):
         try:
             return klass.selectBy(uuid=identifier).getOne()
         except SQLObjectNotFound:
-            raise NotFoundError()
+            raise NotFoundError(str(klass.__name__), identifier)
 
     def get_keys_by_class(self, klass):
         return klass.sqlmeta.getColumns().keys()
