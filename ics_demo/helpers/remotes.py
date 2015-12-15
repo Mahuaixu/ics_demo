@@ -43,6 +43,15 @@ def check_dirty_host(conn):
 def inject_uuid_to_host(conn, uuid):
     remote_cmd_quiet(conn, 'echo %s > %s' % (uuid, UUID_PATH))
 
+def get_uuid_on_host(conn):
+    try:
+        return remote_cmd_oneline(conn, 'cat %s' % UUID_PATH).strip()
+    except FailedExecError:
+        return ''
+
+def remove_uuid_on_host(conn):
+    remote_cmd_quiet(conn, 'rm -f %s' % UUID_PATH)
+
 def ssh_copy_id(ipaddr, user, password):
     try:
         cmd = '/usr/bin/sshpass -p %s /usr/bin/ssh-copy-id %s@%s' % (password, user, ipaddr)
