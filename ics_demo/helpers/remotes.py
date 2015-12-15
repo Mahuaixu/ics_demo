@@ -7,9 +7,6 @@ from convert import check_json_fmt
 
 UUID_PATH = '/tmp/uuid'
 
-def remote_cmd_quiet(conn, cmd_str):
-    cmd = ['/usr/bin/sh', '-c', cmd_str]
-    run(conn, cmd)
 
 def remote_cmd_list(conn, cmd_str):
     cmd = ['/usr/bin/sh', '-c', cmd_str]
@@ -17,6 +14,9 @@ def remote_cmd_list(conn, cmd_str):
     if status != 0:
         raise FailedExecError(cmd_str, 'Executed Failed')
     return stdout
+
+def remote_cmd_quiet(conn, cmd_str):
+    remote_cmd_list(conn, cmd_str)
 
 def remote_cmd_oneline(conn, cmd_str):
     result, status = remote_cmd_list(conn, cmd_str)
