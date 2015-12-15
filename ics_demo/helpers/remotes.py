@@ -9,8 +9,7 @@ UUID_PATH = '/tmp/uuid'
 
 
 def remote_cmd_list(conn, cmd_str):
-    cmd = ['/usr/bin/sh', '-c', cmd_str]
-    stdout, stderr, status = check(conn, cmd)
+    stdout, stderr, status = check(conn, cmd_str, shell=True)
     if status != 0:
         raise FailedExecError(cmd_str, 'Executed Failed')
     return stdout
