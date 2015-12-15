@@ -11,7 +11,7 @@ UUID_PATH = '/tmp/uuid'
 def remote_cmd_list(conn, cmd_str):
     stdout, stderr, status = check(conn, cmd_str, shell=True)
     if status != 0:
-        raise FailedExecError(cmd_str, 'Executed Failed')
+        raise FailedExecError(cmd_str, 'exit code: %d, error msg: %s' % (status, '\n'.join(stderr)))
     return stdout
 
 def remote_cmd_quiet(conn, cmd_str):
