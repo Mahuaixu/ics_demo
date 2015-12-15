@@ -36,7 +36,7 @@ def remote_hostname(conn):
 
 def check_dirty_host(conn):
     try:
-        remote_cmd_quiet(conn, '[ -f %s]' % UUID_PATH)
+        remote_cmd_quiet(conn, '[ -f %s ]' % UUID_PATH)
     except FailedExecError:
         raise AlreadyExistsError('host uuid', UUID_PATH)
 
