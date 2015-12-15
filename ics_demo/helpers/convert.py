@@ -22,6 +22,12 @@ def sqlist2list(sqlist, blacklist=None):
 def sqlist2json(sqlist, blacklist=None):
     return jsonpickle.encode(sqlist2list(sqlist, blacklist), unpicklable=True)
 
+def check_json_fmt(json_str):
+    try:
+        json.loads(json_str)
+    except ValueError:
+        raise CannotParsedError("json", json_str)
+
 def json2dict(json_str):
     try:
         decoded = json.loads(json_str)
