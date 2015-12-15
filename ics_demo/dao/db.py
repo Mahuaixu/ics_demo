@@ -1,5 +1,6 @@
 from sqlobject import *
 from ics_demo.dao.orm.demo import Carrot, Rabbit, Corps
+from ics_demo.dao.orm.host import Host
 from ics_demo.helpers import uuidgen
 
 def createTables(tables):
@@ -25,9 +26,15 @@ def init_demo():
     corps.addRabbit(bunny_kun1)
     corps.addRabbit(bunny_kun2)
 
+base_tables = [Host, ] # order by dependency
+
+def init_base():
+    cleanTables(base_tables)
+    createTables(base_tables)
+
 def init_db():
     #sqlhub.processConnection = connectionForURI('sqlite:/:memory:')
     #sqlhub.processConnection = connectionForURI('sqlite:///root/zzltestsqlitedb')
     sqlhub.processConnection = connectionForURI('mysql://root:root@localhost:3306/zzl?debug=t')
+    init_base()
     init_demo()
-
