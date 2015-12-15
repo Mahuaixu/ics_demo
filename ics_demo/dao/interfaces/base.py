@@ -4,6 +4,8 @@ from ics_demo.helpers.exc import NotFoundError
 from ics_demo.helpers.convert import sqlist2list, sqlobj2dict
 from ics_demo.dao.interfaces.mapping import ref_mapping
 
+# private helper functions
+
 # convert xxxID:id to xxxRef:identifier
 def id_to_ref(output_dict):
     result = {}
@@ -28,6 +30,7 @@ def _get_one_from_orm(klass, identifier):
         raise NotFoundError(str(klass.__name__), identifier)
     return sqlobj2dict(obj, blacklist=['id'])
 
+# public functions
 def get_all_by_class(klass):
     return map(id_to_ref, _get_all_from_orm(klass))
 
