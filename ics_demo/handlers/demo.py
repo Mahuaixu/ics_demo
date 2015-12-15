@@ -7,6 +7,8 @@ from ics_demo.helpers.exc import CannotParsedError
 from ics_demo.dao import rabbit_dao, carrot_dao, corps_dao
 from ics_demo.dao.orm.demo import Carrot, Rabbit, Corps
 
+from ics_demo.remote_services import Proxy
+
 class DemoBaseHandler(BaseHandler):
     def get(self):
         self.write("A story of Rabbit")
@@ -45,8 +47,24 @@ class DemoRabbitHandler(DemoBaseHandler):
             raise CannotParsedError('dict of Rabbit', str(self.post_data))
         else:
             post_dict = self.deref_user_data(self.post_data['rabbit'])
+        # do rpc
+        for proxy in Proxy.proxy_list:
+            proxy.get_service('rabbit').it_is_my_warren(post_dict['name'])
+        # save data
         rabbit = rabbit_dao.save(post_dict)
-        self.write(json.dumps({'rabbit': rabbit_dao.get_one(rabbit.get_identifier())}))
+        # do post rpc
+        for proxy in Proxy.proxy_list:
+            proxy.get_service('rabbit').put_carrot_bucket_in_my_warren(rabbit)
+            proxy.get_service('rabbit').put_a_carrot(rabbit)
+            proxy.get_service('rabbit').put_a_carrot(rabbit)
+
+        carrots = []
+        for proxy in Proxy.proxy_list:
+            carrots += proxy.get_service('rabbit').my_carrots(rabbit)
+
+        rabbit_dict = rabbit_dao.get_one(rabbit.get_identifier())
+        rabbit_dict['carrots'] = carrots
+        self.write(json.dumps({'rabbit': rabbit_dict}))
 
 class DemoCarrotHandler(DemoBaseHandler):
     def get(self, carrot_id=None):
