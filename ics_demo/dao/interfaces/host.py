@@ -12,6 +12,12 @@ def get_one(identifier):
 def get_obj(identifier):
     return base.get_obj_by_class(Host, identifier)
 
+def get_obj_by_ipaddr(ipaddr):
+    try:
+        return Host.selectBy(ipaddr=ipaddr).getOne()
+    except SQLObjectNotFound:
+        raise NotFoundError('Host ip address', ipaddr)
+
 def get_keys():
     return base.get_keys_by_class(Host)
 
