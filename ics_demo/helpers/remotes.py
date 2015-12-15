@@ -40,7 +40,7 @@ def check_dirty_host(conn):
     except FailedExecError:
         raise AlreadyExistsError('host uuid', UUID_PATH)
 
-def inject_host_uuid(conn, uuid):
+def inject_uuid_to_host(conn, uuid):
     remote_cmd_quiet(conn, 'echo %s > %s' % (uuid, UUID_PATH))
 
 def ssh_copy_id(ipaddr, user, password):
