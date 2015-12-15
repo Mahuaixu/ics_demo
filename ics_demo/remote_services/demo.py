@@ -4,17 +4,17 @@ from ics_demo.helpers.base import uuidgen
 class RabbitService(Service):
 
     def it_is_my_warren(self, name):
-        cmd = 'mkdir -p /tmp/%s' % name
+        cmd = 'mktemp -d /tmp/%s-XXXX' % name
+        return self.remote_cmd_oneline(cmd)
+
+    def put_carrot_bucket_in_my_warren(self, warren):
+        cmd = 'mktemp -d %s/carrots-XXXX' % warren
+        return self.remote_cmd_oneline(cmd)
+
+    def put_a_carrot(self, bucket):
+        cmd = 'mktemp %s/XXXX' % bucket
         self.remote_cmd_quiet(cmd)
 
-    def put_carrot_bucket_in_my_warren(self, rabbit):
-        cmd = 'mkdir /tmp/%s/carrots' % rabbit.name
-        self.remote_cmd_quiet(cmd)
-
-    def put_a_carrot(self, rabbit):
-        cmd = 'touch /tmp/%s/carrots/%s' % (rabbit.name, uuidgen())
-        self.remote_cmd_quiet(cmd)
-
-    def my_carrots(self, rabbit):
-        cmd = 'ls /tmp/%s/carrots/' % rabbit.name
+    def my_carrots(self, bucket):
+        cmd = 'ls %s' % bucket
         return self.remote_cmd_list(cmd)
