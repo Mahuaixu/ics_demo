@@ -27,3 +27,18 @@ class CannotParsedError(IcsError):
         message = self.__doc__.strip() + ' to ['+ str(to_what) + '] of ' + str(from_what)
         super(IcsError, self).__init__(500, message)
 
+class DuplicatedError(IcsError):
+    """
+    Data duplicated
+    """
+    def __init__(self, dup_type, data):
+        message = self.__doc__.strip() + ' type ['+ str(dup_type) + '] duplicated: ' + str(data)
+        super(IcsError, self).__init__(500, message)
+
+class FailedExecError(IcsError):
+    """
+    Failed Executed
+    """
+    def __init__(self, cmd, reason):
+        message = self.__doc__.strip() + ' ['+ str(cmd) + '] reason: ' + str(reason)
+        super(IcsError, self).__init__(500, message)
