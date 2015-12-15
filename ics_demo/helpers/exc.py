@@ -49,3 +49,11 @@ class AlreadyExistsError(IcsError):
     def __init__(self, what_exists, where):
         self.message = self.__doc__.strip() + ' ['+ str(what_exists) + '] on: ' + str(where)
         super(IcsError, self).__init__(500)
+
+class InconsistentError(IcsError):
+    """
+    Data Inconsistent
+    """
+    def __init__(self, l_type, r_type, l_data='', r_data=''):
+        self.message = self.__doc__.strip() + ' between [%s]: %s , [%s]: %s' % (l_type, r_type, l_data, r_data)
+        super(IcsError, self).__init__(500)
