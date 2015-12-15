@@ -42,3 +42,11 @@ class FailedExecError(IcsError):
     def __init__(self, cmd, reason):
         message = self.__doc__.strip() + ' ['+ str(cmd) + '] reason: ' + str(reason)
         super(IcsError, self).__init__(500, message)
+
+class AlreadyExistsError(IcsError):
+    """
+    Already Exists
+    """
+    def __init__(self, what_exists, where):
+        message = self.__doc__.strip() + ' ['+ str(what_exists) + '] on: ' + str(where)
+        super(IcsError, self).__init__(500, message)
