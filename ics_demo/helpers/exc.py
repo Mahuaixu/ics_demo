@@ -1,4 +1,4 @@
-import tornado 
+import tornado.web
 
 class IcsError(tornado.web.HTTPError):
     """
