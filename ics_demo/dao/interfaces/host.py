@@ -4,13 +4,16 @@ from ics_demo.dao.orm.host import Host
 from ics_demo.helpers import uuidgen
 
 def get_all():
-    return base.get_all_by_class(Host)
+    return base.class_get_all_to_dict(Host)
 
-def get_one(identifier):
-    return base.get_one_by_class(Host, identifier)
+def get_one(uuid):
+    return base.class_get_one_by_uuid_to_dict(Host, uuid)
 
-def get_obj(identifier):
-    return base.get_obj_by_class(Host, identifier)
+def get_obj(uuid):
+    return base.class_get_one_by_uuid_to_obj(Host, uuid)
+
+def get_obj_by_ID(ID):
+    return base.class_get_one_by_ID_to_obj(Host, ID)
 
 def get_obj_by_ipaddr(ipaddr):
     try:
@@ -19,10 +22,11 @@ def get_obj_by_ipaddr(ipaddr):
         raise NotFoundError('Host ip address', ipaddr)
 
 def get_keys():
-    return base.get_keys_by_class(Host)
+    return base.class_get_keys(Host)
 
 def save(properties_dict):
     name = properties_dict['name']
     ipaddr = properties_dict['ipaddr']
     initialized = properties_dict['initialized']
     return Host(uuid=uuidgen(), name=name, ipaddr=ipaddr, initialized=initialized)
+

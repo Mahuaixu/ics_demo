@@ -4,16 +4,19 @@ from ics_demo.dao.orm.demo import Rabbit
 from ics_demo.helpers import uuidgen
 
 def get_all():
-    return base.get_all_by_class(Rabbit)
+    return base.class_get_all_to_dict(Rabbit)
 
-def get_one(identifier):
-    return base.get_one_by_class(Rabbit, identifier)
+def get_one(uuid):
+    return base.class_get_one_by_uuid_to_dict(Rabbit, uuid)
 
-def get_obj(identifier):
-    return base.get_obj_by_class(Rabbit, identifier)
+def get_obj(uuid):
+    return base.class_get_one_by_uuid_to_obj(Rabbit, uuid)
+
+def get_obj_by_ID(ID):
+    return base.class_get_one_by_ID_to_obj(Rabbit, ID)
 
 def get_keys():
-    return base.get_keys_by_class(Rabbit)
+    return base.class_get_keys(Rabbit)
 
 def save(post_dict):
     name = post_dict['name']

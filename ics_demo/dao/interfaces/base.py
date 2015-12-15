@@ -23,25 +23,31 @@ def _get_all_from_orm(klass):
     objs = klass.select()
     return sqlist2list(objs, blacklist=['id'])
 
-def _get_one_from_orm(klass, identifier):
+def _get_one_by_uuid_from_orm(klass, uuid):
     try:
-        obj = klass.selectBy(uuid=identifier).getOne()
+        obj = klass.selectBy(uuid=uuid).getOne()
     except SQLObjectNotFound:
-        raise NotFoundError(str(klass.__name__), identifier)
+        raise NotFoundError(str(klass.__name__), uuid)
     return sqlobj2dict(obj, blacklist=['id'])
 
 # public functions
-def get_all_by_class(klass):
+def class_get_all_to_dict(klass):
     return map(id_to_ref, _get_all_from_orm(klass))
 
-def get_one_by_class(klass, identifier):
-    return id_to_ref(_get_one_from_orm(klass, identifier))
+def class_get_one_by_uuid_to_dict(klass, uuid):
+    return id_to_ref(_get_one_by_uuid_from_orm(klass, uuid))
 
-def get_obj_by_class(klass, identifier):
+def class_get_one_by_uuid_to_obj(klass, uuid):
     try:
-        return klass.selectBy(uuid=identifier).getOne()
+        return klass.selectBy(uuid=uuid).getOne()
     except SQLObjectNotFound:
-        raise NotFoundError(str(klass.__name__), identifier)
+        raise NotFoundError(str(klass.__name__), uuid)
 
-def get_keys_by_class(klass):
+def class_get_one_by_ID_to_obj(klass, ID):
+    try:
+        return klass.get(ID)
+    except SQLObjectNotFound:
+        raise NotFoundError(str(klass.__name__), ID)
+
+def class_get_keys(klass):
     return klass.sqlmeta.getColumns().keys()
