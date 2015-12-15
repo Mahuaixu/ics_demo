@@ -18,7 +18,7 @@ def remote_cmd_quiet(conn, cmd_str):
     remote_cmd_list(conn, cmd_str)
 
 def remote_cmd_oneline(conn, cmd_str):
-    result, status = remote_cmd_list(conn, cmd_str)
+    result = remote_cmd_list(conn, cmd_str)
     if len(result) == 0:
         raise FailedExecError(cmd_str, 'Empty Return')
     else:
