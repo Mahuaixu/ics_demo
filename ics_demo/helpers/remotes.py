@@ -2,7 +2,7 @@ import subprocess
 
 from remoto.process import check, run
 
-from exc import FailedExecError, AlreadyExistError
+from exc import FailedExecError, AlreadyExistsError
 from convert import check_json_fmt
 
 UUID_PATH = '/tmp/uuid'
