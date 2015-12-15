@@ -19,7 +19,7 @@ class BaseHandler(tornado.web.RequestHandler):
         self.set_header('Content-Type', 'text/plain')
         exc_info = kwargs['exc_info']
         if isinstance(exc_info[1], tornado.web.HTTPError):
-            log_message = kwargs['exc_info'][1].log_message
+            log_message = exc_info[1].log_message
         else:
             log_message = excinfo2str(exc_info)
         self.write(error2json(log_message))
