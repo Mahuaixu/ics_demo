@@ -3,7 +3,7 @@ from sqlobject import *
 
 from ics_demo.helpers.convert import sqlist2list, sqlobj2dict, json2dict, error2json, excinfo2str
 from ics_demo.helpers.exc import NotFoundError, CannotParsedError
-from mapping import dao_mapping
+from ics_demo.dao.mapping import dao_mapping
 
 class BaseHandler(tornado.web.RequestHandler):
     def get(self):

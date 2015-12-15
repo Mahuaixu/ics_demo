@@ -2,19 +2,19 @@ from sqlobject import *
 
 from ics_demo.helpers.exc import NotFoundError
 from ics_demo.helpers.convert import sqlist2list, sqlobj2dict
-from ics_demo.dao.interfaces.mapping import ref_mapping
 
 # private helper functions
 
 # convert xxxID:id to xxxRef:identifier
 def id_to_ref(output_dict):
+    from ics_demo.dao.mapping import dao_mapping
     result = {}
     for key, val in output_dict.iteritems():
         if key.endswith("ID"):
             ref_key = key[:-2]
-            klass = ref_mapping.get(ref_key, None)
-            if ref_key in ref_mapping.keys():
-               result[ref_key + 'Ref'] = klass.get(val).get_identifier()
+            if ref_key in dao_mapping.keys():
+                dao = dao_mapping[ref_key]
+                result[ref_key + 'Ref'] = dao.get_obj_by_ID(val).uuid
         else:
             result[key] = val
     return result
