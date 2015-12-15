@@ -55,6 +55,7 @@ class Proxy(object):
                 raise InconsistentError('uuid on host', 'uuid in DB', uuid_on_host, host.uuid)
 
         self.host = host
+        self.uuid = host.uuid
 
         # Register services
         self.services = {}
