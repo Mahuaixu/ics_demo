@@ -1,3 +1,3 @@
 from demo import RabbitService
 
-registered_services = {'rabbit' : RabbitService, }
+registered_services = [RabbitService, ]

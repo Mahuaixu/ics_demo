@@ -58,17 +58,11 @@ class Proxy(object):
         self.uuid = host.uuid
 
         # Register services
-        self.services = {}
-        for name, service in registered_services.iteritems():
-            self.services[name] = service(self)
+        for service in registered_services:
+            setattr(self, service.__name__, service(self))
 
         Proxy.proxy_list.append(self)
 
-    def get_service(self, srv_name):
-        if srv_name not in self.services.keys():
-            raise NotFoundError('proxy service', srv_name)
-        return self.services[srv_name]
-        
     def get_conn(self):
         return self.conn
 

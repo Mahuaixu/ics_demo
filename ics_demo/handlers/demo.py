@@ -50,21 +50,21 @@ class DemoRabbitHandler(DemoBaseHandler):
         # do rpc
         warrens = {}
         for proxy in Proxy.proxy_list:
-            warren = proxy.get_service('rabbit').it_is_my_warren(post_dict['name'])
+            warren = proxy.RabbitService.it_is_my_warren(post_dict['name'])
             warrens[proxy.uuid] = warren
         # save data
         rabbit = rabbit_dao.save(post_dict)
         # do post rpc
         buckets = {}
         for proxy in Proxy.proxy_list:
-            bucket = proxy.get_service('rabbit').put_carrot_bucket_in_my_warren(warren)
+            bucket = proxy.RabbitService.put_carrot_bucket_in_my_warren(warren)
             buckets[proxy.host.uuid] = bucket
-            proxy.get_service('rabbit').put_a_carrot(bucket)
-            proxy.get_service('rabbit').put_a_carrot(bucket)
+            proxy.RabbitService.put_a_carrot(bucket)
+            proxy.RabbitService.put_a_carrot(bucket)
 
         carrots = []
         for proxy in Proxy.proxy_list:
-            carrots += proxy.get_service('rabbit').my_carrots(buckets[proxy.uuid])
+            carrots += proxy.RabbitService.my_carrots(buckets[proxy.uuid])
 
         rabbit_dict = rabbit_dao.get_one(rabbit.uuid)
         rabbit_dict['carrots'] = carrots
