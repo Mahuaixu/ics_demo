@@ -1,6 +1,7 @@
 from sqlobject import *
 from ics_demo.dao.orm.demo import Carrot, Rabbit, Corps
 from ics_demo.dao.orm.host import Host
+from ics_demo.dao.orm.vsan import Mon, Osd, DataStore, DataStoreHost, BlockDevice
 from ics_demo.helpers import uuidgen
 
 def createTables(tables):
@@ -12,6 +13,8 @@ def cleanTables(tables):
         table.dropTable(ifExists=True)
 
 demo_tables = [Rabbit, Carrot, Corps] # order by dependency
+vsan_tables = [Mon, Osd, DataStore]                # order by dependency
+base_tables = [Host, BlockDevice, DataStoreHost]   # order by dependency
 
 def init_demo():
     cleanTables(demo_tables)
@@ -26,15 +29,27 @@ def init_demo():
     corps.addRabbit(bunny_kun1)
     corps.addRabbit(bunny_kun2)
 
-base_tables = [Host, ] # order by dependency
 
 def init_base():
     cleanTables(base_tables)
     createTables(base_tables)
 
+    host0 = DataStoreHost(name="host0", ipaddr="192.168.126.0", initialized=True)
+    blk0 = BlockDevice(id="0", name="xxxx", used=False, capacity="10240", absolute_path="/dev/sdb")
+    host0.addBlock(blk0)
+    host1 = DataStoreHost(name="host1", ipaddr="192.168.126.1", initialized=True)
+    blk1 = BlockDevice(id="1", name="yyyy", used=False, capacity="10240", absolute_path="/dev/sdb")
+    host1.addBlock(blk1)
+    host2 = DataStoreHost(name="host2", ipaddr="192.168.126.2", initialized=True)
+    blk2 = BlockDevice(id="2", name="zzzz", used=False, capacity="10240", absolute_path="/dev/sdb")
+    host2.addBlock(blk2)
+def init_vsan_store():
+    cleanTables(vsan_tables)
+    createTables(vsan_tables)
 def init_db():
     #sqlhub.processConnection = connectionForURI('sqlite:/:memory:')
     #sqlhub.processConnection = connectionForURI('sqlite:///root/zzltestsqlitedb')
     sqlhub.processConnection = connectionForURI('mysql://root:root@localhost:3306/zzl?debug=t')
     init_base()
+    init_vsan_store()
     init_demo()

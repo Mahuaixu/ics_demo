@@ -31,3 +31,11 @@
     - method: "POST"
     - body: '{"rabbit" : {"name": "ZZL"}}'
     - headers: {'Content-Type': 'application/json'}
+- test:
+    - group: "Rabbit"
+    - name: "Get single rabbit"
+    - url: "/demo/rabbit/52b90c58-06d6-4e8f-89b0-3052a8a6b869"
+    - method: "GET"
+    - expected_status: [200]
+    - body: '"rabbit" : {"name": "ZZL", "uuid": "52b90c58-06d6-4e8f-89b0-3052a8a6b869"}'
+    - headers: {'Content-Type': 'application/json'}
