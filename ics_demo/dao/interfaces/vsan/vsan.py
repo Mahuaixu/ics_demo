@@ -25,7 +25,7 @@ def get_keys():
 
 
 def save(properties_dict):
-    id = properties_dict['id']
+    #id = properties_dict['id']
     name = properties_dict['name']
     capacity = properties_dict['capacity']
     datastore_type = properties_dict['datastore_type']
@@ -34,7 +34,6 @@ def save(properties_dict):
     external_conf = properties_dict['external_conf']
     balance_status = properties_dict['balance_status']
     maintenance_mode = properties_dict['maintenance_mode']
-    return VsanStore(uuid=uuidgen(), id=id, name=name,
-                     capacity=capacity, datastore_type=datastore_type,
+    return VsanStore(uuid=uuidgen(), name=name, capacity=capacity, datastore_type=datastore_type,
                      replicas=replicas, external=external, external_conf=external_conf,
                      balance_status=balance_status, maintenance_mode=maintenance_mode)

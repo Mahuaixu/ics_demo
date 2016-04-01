@@ -25,7 +25,6 @@ def get_keys():
 
 
 def save(post_dict):
-    record_id = post_dict['id']
-    name = post_dict['name']
-    host_id = post_dict['host_id']
-    return Mon(id=record_id, uuid=uuidgen(), name=name, host_id=host_id)
+    #record_id = post_dict['id']
+    osd_name = post_dict['name']
+    return Mon(uuid=uuidgen(), name=osd_name)
